@@ -8,9 +8,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() async {
-
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
-
       switch (methodCall.method) {
         case 'requestTrackingAuthorization':
           return 0;
@@ -19,11 +17,8 @@ void main() {
         default:
           return null;
       }
-
     });
-
   });
-
 
   test('requestTrackingAuthorization', () async {
     final status = await AppTrackingTransparency.requestTrackingAuthorization();
