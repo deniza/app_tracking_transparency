@@ -29,6 +29,10 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 // Show tracking authorization dialog and ask for permission
 final status = await AppTrackingTransparency.requestTrackingAuthorization();
+
+// Now you can safely initialize admob and start to show ads. Admob should use
+// advertising identifier automatically.
+// FirebaseAdMob.instance.initialize(...)
 ```
 
 You can also get advertising identifier after authorization if you want.
