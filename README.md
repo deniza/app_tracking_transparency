@@ -2,14 +2,20 @@
 
 This Flutter plugin allows you to display ios 14+ tracking authorization dialog and request permission to collect data. Collected data is crucial for ad networks (ie admob) to work efficiently on ios 14+ devices.
 
+## Introduction
+
+Starting in iOS 14, IDFA will be unavailable until an app calls the App Tracking Transparency framework to present the app-tracking authorization request to the end user. If an app does not present this request, the IDFA will automatically be zeroed out which may lead to a significant loss in ad revenue.
+
+This plugin lets you display App Tracking Transparency authorization request and ask for permission.
+
 ## Usage
 
 To use this plugin, follow the [installing guide](https://pub.dev/packages/app_tracking_transparency#-installing-tab-).
 
-Make sure you add following key/value pair to your Info.plist file located in ios/Runner directory.
-```
+Make sure you update Info.plist file located in ios/Runner directory and add the NSUserTrackingUsageDescription key with a custom message describing your usage.
+```xml
 <key>NSUserTrackingUsageDescription</key>
-<string>We request tracking permission to show you relevant, personalized ads.</string>
+<string>This identifier will be used to deliver personalized ads to you.</string>
 ```
 
 ## Example
