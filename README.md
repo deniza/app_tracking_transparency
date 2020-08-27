@@ -8,6 +8,10 @@ Starting in iOS 14, IDFA will be unavailable until an app calls the App Tracking
 
 This plugin lets you display App Tracking Transparency authorization request and ask for permission.
 
+<div align="left">
+    <img src="https://github.com/deniza/app_tracking_transparency/raw/master/images/dialog.png">
+</div>
+
 ## Usage
 
 To use this plugin, follow the [installing guide](https://pub.dev/packages/app_tracking_transparency#-installing-tab-).
