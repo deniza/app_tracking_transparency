@@ -14,8 +14,6 @@ This plugin lets you display App Tracking Transparency authorization request and
 
 ## Usage
 
-To use this plugin, follow the [installing guide](https://pub.dev/packages/app_tracking_transparency#-installing-tab-).
-
 Make sure you update Info.plist file located in ios/Runner directory and add the NSUserTrackingUsageDescription key with a custom message describing your usage.
 ```xml
 <key>NSUserTrackingUsageDescription</key>
