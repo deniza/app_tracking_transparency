@@ -40,3 +40,5 @@ final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
 
 ## Notes
 To use this plugin you should compile your project using XCode 12 and run your app on an ios 14 device.
+
+For additional info on this topic please refer to this article by Google: <https://support.google.com/admob/answer/9997589?hl=en> 
