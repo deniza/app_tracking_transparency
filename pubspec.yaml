@@ -1,5 +1,5 @@
 name: app_tracking_transparency
-description: This Flutter plugin allows you to display ios14 tracking authorization dialog and request permission to collect data. Collected data is curicial for ad networks (ie admob) to work efficiently on ios 14 devices.
+description: This Flutter plugin allows you to display ios tracking authorization dialog and request permission to collect data.
 version: 1.0.0
 homepage: https://github.com/deniza/app_tracking_transparency
 
