@@ -14,7 +14,7 @@ This plugin lets you display App Tracking Transparency authorization request and
 
 ## Usage
 
-Make sure you update Info.plist file located in ios/Runner directory and add the NSUserTrackingUsageDescription key with a custom message describing your usage.
+Make sure you update Info.plist file located in ios/Runner directory and add the **NSUserTrackingUsageDescription** key with a custom message describing your usage.
 ```xml
 <key>NSUserTrackingUsageDescription</key>
 <string>This identifier will be used to deliver personalized ads to you.</string>
@@ -33,7 +33,7 @@ final status = await AppTrackingTransparency.requestTrackingAuthorization();
 // FirebaseAdMob.instance.initialize(...)
 ```
 
-You can also get advertising identifier after authorization if you want.
+You can also get advertising identifier after authorization. Until a user grants authorization, the UUID returned will be all zeros: 00000000-0000-0000-0000-000000000000. Also note, the advertisingIdentifier will be all zeros in the Simulator, regardless of the tracking authorization status.
 ```dart
 final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
 ``` 
@@ -41,4 +41,4 @@ final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
 ## Notes
 To use this plugin you should compile your project using XCode 12 and run your app on an ios 14 device.
 
-For additional info on this topic please refer to this article by Google: <https://support.google.com/admob/answer/9997589?hl=en> 
+Google (admob) recommends implementing an explainer message that appears to users immediately before the consent dialogue. For additional info on this topic please refer to this article: <https://support.google.com/admob/answer/9997589?hl=en> 
