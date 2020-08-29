@@ -3,9 +3,7 @@ import UIKit
 #if canImport(AppTrackingTransparency)
     import AppTrackingTransparency
 #endif
-#if canImport(AdSupport)
-    import AdSupport;
-#endif
+import AdSupport;
 
 public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
@@ -75,17 +73,7 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
   }
     
   private func getAdvertisingIdentifier(result: @escaping FlutterResult) {
-    
-    if #available(iOS 14, *) {
-        #if canImport(AdSupport)
-        result(String(ASIdentifierManager.shared().advertisingIdentifier.uuidString))
-        #else
-        result(String(""));
-        #endif
-    } else {
-        result(String(""));
-    }
-    
+    result(String(ASIdentifierManager.shared().advertisingIdentifier.uuidString))
   }
 
 }
