@@ -1,3 +1,8 @@
+## 1.0.1
+
+* FIXED: requestTrackingAuthorization() is now working on ios 6.0+ devices 
+* Improved documentation
+
 ## 1.0.0+1
 
 * Formatted dart files.
