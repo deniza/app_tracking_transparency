@@ -1,3 +1,6 @@
+## 1.1.0
+* FEATURE: Added canRequestTrackingAuthorization()
+
 ## 1.0.1+1
 
 * Improved documentation

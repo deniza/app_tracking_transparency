@@ -13,8 +13,10 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    
-    if (call.method == "requestTrackingAuthorization") {
+    if (call.method == "canRequestTrackingAuthorization") {
+        canRequestTrackingAuthorization(result: result)
+    }
+    else if (call.method == "requestTrackingAuthorization") {
         requestTrackingAuthorization(result: result)
     }
     else if (call.method == "getAdvertisingIdentifier") {
@@ -23,7 +25,18 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
     else {
         result(FlutterMethodNotImplemented)
     }
-    
+  }
+
+  private func canRequestTrackingAuthorization(result: @escaping FlutterResult) {
+    if #available(iOS 14, *) {
+        #if canImport(AppTrackingTransparency)
+            result(Bool(ATTrackingManager.trackingAuthorizationStatus == ATTrackingManager.AuthorizationStatus.notDetermined))
+        #else
+            result(Bool(false))
+        #endif
+    } else {
+        result(Bool(false))
+    }
   }
 
   /*
@@ -33,9 +46,8 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
     case authorized = 3
   */
   private func requestTrackingAuthorization(result: @escaping FlutterResult) {
-        
     if #available(iOS 14, *) {
-         #if canImport(AppTrackingTransparency)
+        #if canImport(AppTrackingTransparency)
         ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
 
             switch status {
@@ -43,7 +55,7 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
                     // Tracking authorization dialog was shown
                     // and we are authorized
                     print("requestTrackingAuthorization: Authorized")
-                
+
                     // Now that we are authorized we can get the IDFA
                     // print(ASIdentifierManager.shared().advertisingIdentifier)
                 case .denied:
@@ -58,7 +70,7 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
                 @unknown default:
                     print("requestTrackingAuthorization: Unknown")
             }
-            
+
             result(Int(status.rawValue));
 
         })
@@ -69,11 +81,9 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
         // Fallback on earlier versions
         result(Int(0));
     }
-        
   }
-    
+
   private func getAdvertisingIdentifier(result: @escaping FlutterResult) {
     result(String(ASIdentifierManager.shared().advertisingIdentifier.uuidString))
   }
-
 }
