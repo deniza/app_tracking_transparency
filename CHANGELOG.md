@@ -1,5 +1,5 @@
 ## 1.1.0
-* FEATURE: Added canRequestTrackingAuthorization()
+* FEATURE: Added trackingAuthorizationStatus
 
 ## 1.0.1+1
 

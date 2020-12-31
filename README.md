@@ -46,18 +46,20 @@ final status = await AppTrackingTransparency.requestTrackingAuthorization();
 
 You can also show a custom explainer dialog before the system dialog if you want.
 ```dart
-if (await AppTrackingTransparency.canRequestTrackingAuthorization()) {
-  // Show a custom explainer dialog before the system dialog
-  if (await showCustomTrackingDialog(context)) {
-    // Wait for dialog popping animation
-    await Future.delayed(const Duration(milliseconds: 200));
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
+try {
+  // If the system can show an authorization request dialog
+  if (await AppTrackingTransparency.trackingAuthorizationStatus ==
+      TrackingStatus.notDetermined) {
+    // Show a custom explainer dialog before the system dialog
+    if (await showCustomTrackingDialog(context)) {
+      // Wait for dialog popping animation
+      await Future.delayed(const Duration(milliseconds: 200));
+      // Request system's tracking authorization dialog
       await AppTrackingTransparency.requestTrackingAuthorization();
-    } on PlatformException {
-      // Failed to open tracking auth dialog.
     }
   }
+} on PlatformException {
+  // Unexpected exception was thrown
 }
 ```
 

@@ -1,20 +1,20 @@
-import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 void main() {
-  runApp(CupertinoApp(home: MyApp()));
+  runApp(MaterialApp(home: HomePage()));
 }
 
-class MyApp extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _HomePageState extends State<HomePage> {
   String _authStatus = 'Unknown';
 
   @override
@@ -26,45 +26,46 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlugin() async {
-    TrackingStatus status;
-
-    if (await AppTrackingTransparency.canRequestTrackingAuthorization()) {
-      // Show a custom explainer dialog before the system dialog
-      if (await showCustomTrackingDialog(context)) {
-        // Wait for dialog popping animation
-        await Future.delayed(const Duration(milliseconds: 200));
-        // Platform messages may fail, so we use a try/catch PlatformException.
-        try {
-          status = await AppTrackingTransparency.requestTrackingAuthorization();
-        } on PlatformException {
-          _authStatus = 'Failed to open tracking auth dialog.';
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      final TrackingStatus status =
+          await AppTrackingTransparency.trackingAuthorizationStatus;
+      setState(() => _authStatus = '$status');
+      // If the system can show an authorization request dialog
+      if (status == TrackingStatus.notDetermined) {
+        // Show a custom explainer dialog before the system dialog
+        if (await showCustomTrackingDialog(context)) {
+          // Wait for dialog popping animation
+          await Future.delayed(const Duration(milliseconds: 200));
+          // Request system's tracking authorization dialog
+          final TrackingStatus status =
+              await AppTrackingTransparency.requestTrackingAuthorization();
+          setState(() => _authStatus = '$status');
         }
-        setState(() {
-          _authStatus = "$status";
-        });
       }
+    } on PlatformException {
+      setState(() => _authStatus = 'PlatformException was thrown');
     }
 
-    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
-    print("UUID: $uuid");
+    // getAdvertisingIdentifier throws on android
+    if (Platform.isIOS) {
+      final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+      print("UUID: $uuid");
+    }
   }
 
-  Future<bool> showCustomTrackingDialog(BuildContext context) =>
-      showCupertinoDialog<bool>(
+  Future<bool> showCustomTrackingDialog(BuildContext context) async =>
+      await showDialog<bool>(
         context: context,
-        builder: (context) => CupertinoAlertDialog(
+        builder: (context) => AlertDialog(
           title: const Text('Explain Title'),
           content: const Text('Explain Description'),
           actions: [
-            CupertinoDialogAction(
+            TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: SizedBox(
-                // Force vertical layout
-                width: MediaQuery.of(context).size.width / 2,
-                child: const Text("I'll decide later"),
-              ),
+              child: const Text("I'll decide later"),
             ),
-            CupertinoDialogAction(
+            TextButton(
               onPressed: () => Navigator.pop(context, true),
               child: const Text('Allow tracking'),
             ),
@@ -75,11 +76,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: const Text('App Tracking Transparency Example'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('App Tracking Transparency Example'),
       ),
-      child: Center(
+      body: Center(
         child: Text('Tracking status: $_authStatus\n'),
       ),
     );
