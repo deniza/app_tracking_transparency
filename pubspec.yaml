@@ -1,6 +1,6 @@
 name: app_tracking_transparency
 description: This Flutter plugin allows you to display ios tracking authorization dialogue and request permission to collect data.
-version: 1.1.0
+version: 1.1.0+1
 homepage: https://github.com/deniza/app_tracking_transparency
 
 environment:

@@ -1,3 +1,7 @@
+## 1.1.0+1
+
+* Formatted dart files.
+
 ## 1.1.0
 
 * FEATURE: Added trackingAuthorizationStatus (thanks to https://github.com/untp)
