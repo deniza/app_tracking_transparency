@@ -44,6 +44,25 @@ final status = await AppTrackingTransparency.requestTrackingAuthorization();
 // FirebaseAdMob.instance.initialize(...)
 ```
 
+You can also show a custom explainer dialog before the system dialog if you want.
+```dart
+try {
+  // If the system can show an authorization request dialog
+  if (await AppTrackingTransparency.trackingAuthorizationStatus ==
+      TrackingStatus.notDetermined) {
+    // Show a custom explainer dialog before the system dialog
+    if (await showCustomTrackingDialog(context)) {
+      // Wait for dialog popping animation
+      await Future.delayed(const Duration(milliseconds: 200));
+      // Request system's tracking authorization dialog
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+  }
+} on PlatformException {
+  // Unexpected exception was thrown
+}
+```
+
 You can also get advertising identifier after authorization. Until a user grants authorization, the UUID returned will be all zeros: 00000000-0000-0000-0000-000000000000. Also note, the advertisingIdentifier will be all zeros in the Simulator, regardless of the tracking authorization status.
 ```dart
 final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();

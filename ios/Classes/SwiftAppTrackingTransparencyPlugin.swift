@@ -1,9 +1,7 @@
 import Flutter
 import UIKit
-#if canImport(AppTrackingTransparency)
-    import AppTrackingTransparency
-#endif
-import AdSupport;
+import AppTrackingTransparency
+import AdSupport
 
 public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
@@ -13,8 +11,10 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    
-    if (call.method == "requestTrackingAuthorization") {
+    if (call.method == "getTrackingAuthorizationStatus") {
+        getTrackingAuthorizationStatus(result: result)
+    }
+    else if (call.method == "requestTrackingAuthorization") {
         requestTrackingAuthorization(result: result)
     }
     else if (call.method == "getAdvertisingIdentifier") {
@@ -23,7 +23,15 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
     else {
         result(FlutterMethodNotImplemented)
     }
-    
+  }
+
+  private func getTrackingAuthorizationStatus(result: @escaping FlutterResult) {
+    if #available(iOS 14, *) {
+        result(Int(ATTrackingManager.trackingAuthorizationStatus.rawValue))
+    } else {
+        // return notSupported
+        result(Int(4))
+    }
   }
 
   /*
@@ -33,47 +41,17 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
     case authorized = 3
   */
   private func requestTrackingAuthorization(result: @escaping FlutterResult) {
-        
     if #available(iOS 14, *) {
-         #if canImport(AppTrackingTransparency)
         ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-
-            switch status {
-                case .authorized:
-                    // Tracking authorization dialog was shown
-                    // and we are authorized
-                    print("requestTrackingAuthorization: Authorized")
-                
-                    // Now that we are authorized we can get the IDFA
-                    // print(ASIdentifierManager.shared().advertisingIdentifier)
-                case .denied:
-                    // Tracking authorization dialog was
-                    // shown and permission is denied
-                    print("requestTrackingAuthorization: Denied")
-                case .notDetermined:
-                    // Tracking authorization dialog has not been shown
-                    print("requestTrackingAuthorization: Not Determined")
-                case .restricted:
-                    print("requestTrackingAuthorization: Restricted")
-                @unknown default:
-                    print("requestTrackingAuthorization: Unknown")
-            }
-            
-            result(Int(status.rawValue));
-
+            result(Int(status.rawValue))
         })
-        #else
-        result(Int(0));
-        #endif
     } else {
-        // Fallback on earlier versions
-        result(Int(0));
+        // return notSupported
+        result(Int(4))
     }
-        
   }
-    
+
   private func getAdvertisingIdentifier(result: @escaping FlutterResult) {
     result(String(ASIdentifierManager.shared().advertisingIdentifier.uuidString))
   }
-
 }

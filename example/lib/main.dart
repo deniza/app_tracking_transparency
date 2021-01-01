@@ -1,59 +1,87 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(home: HomePage()));
 }
 
-class MyApp extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _HomePageState extends State<HomePage> {
   String _authStatus = 'Unknown';
 
   @override
   void initState() {
     super.initState();
-    initPlugin();
+    // Can't show a dialog in initState, delaying initialization
+    SchedulerBinding.instance.addPostFrameCallback((_) => initPlugin());
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlugin() async {
-    TrackingStatus status;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      status = await AppTrackingTransparency.requestTrackingAuthorization();
+      final TrackingStatus status =
+          await AppTrackingTransparency.trackingAuthorizationStatus;
+      setState(() => _authStatus = '$status');
+      // If the system can show an authorization request dialog
+      if (status == TrackingStatus.notDetermined) {
+        // Show a custom explainer dialog before the system dialog
+        if (await showCustomTrackingDialog(context)) {
+          // Wait for dialog popping animation
+          await Future.delayed(const Duration(milliseconds: 200));
+          // Request system's tracking authorization dialog
+          final TrackingStatus status =
+              await AppTrackingTransparency.requestTrackingAuthorization();
+          setState(() => _authStatus = '$status');
+        }
+      }
     } on PlatformException {
-      _authStatus = 'Failed to open tracking auth dialog.';
+      setState(() => _authStatus = 'PlatformException was thrown');
     }
 
-    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
-    print("UUID: $uuid");
-
-    if (!mounted) {
-      return;
+    // getAdvertisingIdentifier throws on android
+    if (Platform.isIOS) {
+      final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+      print("UUID: $uuid");
     }
-
-    setState(() {
-      _authStatus = "$status";
-    });
   }
+
+  Future<bool> showCustomTrackingDialog(BuildContext context) async =>
+      await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Explain Title'),
+          content: const Text('Explain Description'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text("I'll decide later"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Allow tracking'),
+            ),
+          ],
+        ),
+      ) ??
+      false;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('App Tracking Transparency Example'),
-        ),
-        body: Center(
-          child: Text('Tracking status: $_authStatus\n'),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('App Tracking Transparency Example'),
+      ),
+      body: Center(
+        child: Text('Tracking status: $_authStatus\n'),
       ),
     );
   }

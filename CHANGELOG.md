@@ -1,3 +1,6 @@
+## 1.1.0
+* FEATURE: Added trackingAuthorizationStatus
+
 ## 1.0.1+1
 
 * Improved documentation
