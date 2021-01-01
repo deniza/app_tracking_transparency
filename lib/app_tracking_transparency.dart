@@ -42,6 +42,7 @@ class AppTrackingTransparency {
   /// }
   /// ```
   ///
+  /// returns TrackingStatus.notSupported on Android
   static Future<TrackingStatus> get trackingAuthorizationStatus async {
     if (Platform.isIOS) {
       final int status =
@@ -59,6 +60,7 @@ class AppTrackingTransparency {
   /// final status = await AppTrackingTransparency.requestTrackingAuthorization();
   /// ```
   ///
+  /// returns TrackingStatus.notSupported on Android
   static Future<TrackingStatus> requestTrackingAuthorization() async {
     if (Platform.isIOS) {
       final int status =
@@ -72,9 +74,12 @@ class AppTrackingTransparency {
   /// ```dart
   /// final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
   /// ```
-  /// Throws MissingPluginException on android.
+  /// returns empty string on Android
   static Future<String> getAdvertisingIdentifier() async {
-    final String uuid = await _channel.invokeMethod('getAdvertisingIdentifier');
-    return uuid;
+    if (Platform.isIOS) {
+      final String uuid = await _channel.invokeMethod('getAdvertisingIdentifier');
+      return uuid;
+    }
+    return "";
   }
 }

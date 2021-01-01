@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -47,11 +45,9 @@ class _HomePageState extends State<HomePage> {
       setState(() => _authStatus = 'PlatformException was thrown');
     }
 
-    // getAdvertisingIdentifier throws on android
-    if (Platform.isIOS) {
-      final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
-      print("UUID: $uuid");
-    }
+    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+    print("UUID: $uuid");
+
   }
 
   Future<bool> showCustomTrackingDialog(BuildContext context) async =>
