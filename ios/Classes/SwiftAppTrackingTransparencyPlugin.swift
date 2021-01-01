@@ -1,8 +1,6 @@
 import Flutter
 import UIKit
-#if canImport(AppTrackingTransparency)
-    import AppTrackingTransparency
-#endif
+import AppTrackingTransparency
 import AdSupport
 
 public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
@@ -29,12 +27,7 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
 
   private func getTrackingAuthorizationStatus(result: @escaping FlutterResult) {
     if #available(iOS 14, *) {
-        #if canImport(AppTrackingTransparency)
-            result(Int(ATTrackingManager.trackingAuthorizationStatus.rawValue))
-        #else
-            // return notSupported
-            result(Int(4))
-        #endif
+        result(Int(ATTrackingManager.trackingAuthorizationStatus.rawValue))
     } else {
         // return notSupported
         result(Int(4))
@@ -49,14 +42,9 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
   */
   private func requestTrackingAuthorization(result: @escaping FlutterResult) {
     if #available(iOS 14, *) {
-        #if canImport(AppTrackingTransparency)
-            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-                result(Int(status.rawValue))
-            })
-        #else
-            // return notSupported
-            result(Int(4))
-        #endif
+        ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+            result(Int(status.rawValue))
+        })
     } else {
         // return notSupported
         result(Int(4))
