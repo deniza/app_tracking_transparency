@@ -1,5 +1,7 @@
 ## 1.1.0
-* FEATURE: Added trackingAuthorizationStatus
+
+* FEATURE: Added trackingAuthorizationStatus (thanks to https://github.com/untp)
+* Updated example to show custom tracking explainer message
 
 ## 1.0.1+1
 
