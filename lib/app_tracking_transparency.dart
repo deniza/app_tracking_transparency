@@ -77,7 +77,8 @@ class AppTrackingTransparency {
   /// returns empty string on Android
   static Future<String> getAdvertisingIdentifier() async {
     if (Platform.isIOS) {
-      final String uuid = await _channel.invokeMethod('getAdvertisingIdentifier');
+      final String uuid =
+          await _channel.invokeMethod('getAdvertisingIdentifier');
       return uuid;
     }
     return "";
