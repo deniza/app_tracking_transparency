@@ -46,7 +46,7 @@ class AppTrackingTransparency {
   static Future<TrackingStatus> get trackingAuthorizationStatus async {
     if (Platform.isIOS) {
       final int status =
-          (await _channel.invokeMethod('getTrackingAuthorizationStatus'))!;
+          (await _channel.invokeMethod<int>('getTrackingAuthorizationStatus'))!;
       return TrackingStatus.values[status];
     }
     return TrackingStatus.notSupported;
@@ -64,7 +64,7 @@ class AppTrackingTransparency {
   static Future<TrackingStatus> requestTrackingAuthorization() async {
     if (Platform.isIOS) {
       final int status =
-          (await _channel.invokeMethod('requestTrackingAuthorization'))!;
+          (await _channel.invokeMethod<int>('requestTrackingAuthorization'))!;
       return TrackingStatus.values[status];
     }
     return TrackingStatus.notSupported;
@@ -78,7 +78,7 @@ class AppTrackingTransparency {
   static Future<String> getAdvertisingIdentifier() async {
     if (Platform.isIOS) {
       final String uuid =
-          (await _channel.invokeMethod('getAdvertisingIdentifier'))!;
+          (await _channel.invokeMethod<String>('getAdvertisingIdentifier'))!;
       return uuid;
     }
     return "";
