@@ -1,6 +1,6 @@
 ## 2.0.0
 
-* Migrated to null safety.
+* Migrated to null safety. Thanks [untp](https://github.com/untp)
 
 ## 1.1.0+1
 
