@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
@@ -18,8 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // Can't show a dialog in initState, delaying initialization
-    SchedulerBinding.instance.addPostFrameCallback((_) => initPlugin());
+    initPlugin();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -47,7 +45,6 @@ class _HomePageState extends State<HomePage> {
 
     final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
     print("UUID: $uuid");
-
   }
 
   Future<bool> showCustomTrackingDialog(BuildContext context) async =>
@@ -58,7 +55,7 @@ class _HomePageState extends State<HomePage> {
           content: const Text(
             'We care about your privacy and data security. We keep this app free by showing ads. '
             'Can we continue to use your data to tailor ads for you?\n\nYou can change your choice anytime in the app settings. '
-            'Our partners will collect data and use a unique identifier on your device to show you ads.'
+            'Our partners will collect data and use a unique identifier on your device to show you ads.',
           ),
           actions: [
             TextButton(
