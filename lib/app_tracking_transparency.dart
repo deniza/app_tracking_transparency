@@ -15,7 +15,7 @@ enum TrackingStatus {
   /// The user authorizes access to tracking
   authorized,
 
-  /// The platform is not iOS or the iOS version is below 14.0
+  /// The platform is not iOS or the iOS version is below 14.5
   notSupported,
 }
 
@@ -52,7 +52,7 @@ class AppTrackingTransparency {
     return TrackingStatus.notSupported;
   }
 
-  /// Call this function to display tracking authorization dialog on ios 14+ devices.
+  /// Call this function to display tracking authorization dialog on ios 14.5+ devices.
   /// User's choice is returned as [TrackingStatus]. You can call this function as many
   /// as you want but it will display the dialog only once after the user mades his decision.
   ///
