@@ -4,7 +4,11 @@ This Flutter plugin allows you to display ios 14+ tracking authorization dialog 
 
 ## Introduction
 
-Starting in iOS 14, IDFA will be unavailable until an app calls the App Tracking Transparency framework to present the app-tracking authorization request to the end user. If an app does not present this request, the IDFA will automatically be zeroed out which may lead to a significant loss in ad revenue.
+Starting in iOS 14.0 App Tracking Transparency framework is available so we can present the app-tracking authorization request to the end user.
+
+Starting in iOS 14.5, IDFA will be unavailable until an app calls the App Tracking Transparency framework to present the app-tracking authorization request to the end user. If an app does not present this request, the IDFA will automatically be zeroed out which may lead to a significant loss in ad revenue.
+
+On iOS >=14.0 <14.5, tracking authorization request dialog isn't required in order to get IDFA. Keep in mind that, in those iOS versions, if you ask for it and the user rejects it you will lose access to IDFA ([see tests](https://github.com/deniza/app_tracking_transparency/pull/6#issuecomment-808964367)).
 
 This plugin lets you display App Tracking Transparency authorization request and ask for permission.
 
