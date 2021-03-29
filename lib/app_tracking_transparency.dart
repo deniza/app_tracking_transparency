@@ -52,6 +52,16 @@ class AppTrackingTransparency {
     return TrackingStatus.notSupported;
   }
 
+  /// returns true if it is iOS >= 14.5
+  static Future<bool> get isBeingEnforcedInThisVersion async {
+    if (Platform.isIOS) {
+      final int status =
+          (await _channel.invokeMethod<int>('isBeingEnforcedInThisVersion'))!;
+      return status == 1;
+    }
+    return false;
+  }
+
   /// Call this function to display tracking authorization dialog on ios 14+ devices.
   /// User's choice is returned as [TrackingStatus]. You can call this function as many
   /// as you want but it will display the dialog only once after the user mades his decision.
