@@ -14,13 +14,14 @@ This plugin lets you display App Tracking Transparency authorization request and
 
 ## Usage
 
+#### Step 1:
 Make sure you update Info.plist file located in ios/Runner directory and add the **NSUserTrackingUsageDescription** key with a custom message describing your usage.
 ```xml
 <key>NSUserTrackingUsageDescription</key>
 <string>This identifier will be used to deliver personalized ads to you.</string>
 ```
-
-Google recommends that you should be using Google Mobile Ads SDK 7.64.0 or higher. The Google Mobile Ads SDK supports conversion tracking using Apple's SKAdNetwork, which means Google is able to attribute an app install even when IDFA is unavailable. To enable this functionality, you will need to update the SKAdNetworkItems key with an additional dictionary in your Info.plist, [check them here](https://developers.google.com/admob/ios/ios14#skadnetwork).
+#### Step 2:
+Google recommends that you should be using Google Mobile Ads SDK 7.64.0 or higher. The Google Mobile Ads SDK supports conversion tracking using Apple's SKAdNetwork, which means Google is able to attribute an app install even when IDFA is unavailable. **This is a crucial step if you want to maximize your ad revenue when IDFA is not available.** To enable this functionality, you will need to update the SKAdNetworkItems key with an additional dictionary in your Info.plist, [check them here](https://developers.google.com/admob/ios/ios14#skadnetwork).
 
 ## Example
 ``` dart
