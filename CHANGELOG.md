@@ -1,3 +1,8 @@
+## 2.0.0+1
+
+* Updated README.md to clarify IDFA access before iOS 14.5
+* Removed SKAdNetworkItems from README and added a link to official google docs
+
 ## 2.0.0
 
 * Migrated to null safety. Thanks [untp](https://github.com/untp)
