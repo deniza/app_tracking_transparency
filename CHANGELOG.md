@@ -1,3 +1,7 @@
+## 2.0.1
+
+* Fixed typo in example
+
 ## 2.0.0+1
 
 * Updated README.md to clarify IDFA access before iOS 14.5
