@@ -20,6 +20,9 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
     else if (call.method == "getAdvertisingIdentifier") {
         getAdvertisingIdentifier(result: result)
     }
+    else if (call.method == "isBeingEnforcedInThisVersion") {
+        isBeingEnforcedInThisVersion(result: result)
+    }
     else {
         result(FlutterMethodNotImplemented)
     }
@@ -31,6 +34,14 @@ public class SwiftAppTrackingTransparencyPlugin: NSObject, FlutterPlugin {
     } else {
         // return notSupported
         result(Int(4))
+    }
+  }
+
+  private func isBeingEnforcedInThisVersion(result: @escaping FlutterResult) {
+    if #available(iOS 14.5, *) {
+        result(Int(1))
+    } else {
+        result(Int(0))
     }
   }
 
