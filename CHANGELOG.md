@@ -1,3 +1,7 @@
+## 2.0.2+1
+
+* Changed license to MIT
+
 ## 2.0.2
 
 * Fixed example to comply null safety
