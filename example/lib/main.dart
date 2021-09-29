@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     // Can't show a dialog in initState, delaying initialization
-    WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
+    WidgetsBinding.instance!.addPostFrameCallback((_) => initPlugin());
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
