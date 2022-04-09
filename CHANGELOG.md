@@ -1,3 +1,7 @@
+## 2.0.2+2
+
+* Updated documentation
+
 ## 2.0.2+1
 
 * Changed license to MIT

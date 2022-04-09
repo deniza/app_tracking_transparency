@@ -67,4 +67,12 @@ final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
 ## Notes
 To use this plugin you should compile your project using XCode 12 and run your app on an ios 14 device.
 
-Google (admob) recommends implementing an explainer message that appears to users immediately before the consent dialogue. For additional info on this topic please refer to this article: <https://support.google.com/admob/answer/9997589?hl=en> 
+Google (admob) recommends implementing an explainer message that appears to users immediately before the consent dialogue. For additional info on this topic please refer to this article: <https://support.google.com/admob/answer/9997589?hl=en>
+
+## Important Notice
+
+IOS does not allow to display multiple native dialogs. If you try to open a native dialog when there is already a dialog on screen, previous dialog will be forcefully closed by the system. It's very common to show notification permission dialog on the first run of an ios application. If you both try to show a notification permission dialog and app tracking request dialog, one of the each will be cancelled. One way to handle this is using an explainer dialog before requesting tracking authorization. Please check the sample project for more on this. I highly recommend this approach.
+
+Another way to get over this problem is postponing permission request until 2nd, or Nth run of the application. If you choose this way, please make sure that you inform app store reviewer that you postponed tracking request, or your submission may be rejected.
+
+And finally; Always test on a real device with a fresh installed application.
