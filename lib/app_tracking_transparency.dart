@@ -33,12 +33,11 @@ class AppTrackingTransparency {
   /// if (await AppTrackingTransparency.trackingAuthorizationStatus ==
   ///     TrackingStatus.notDetermined) {
   ///   // Show a custom explainer dialog before the system dialog
-  ///   if (await showCustomTrackingDialog(context)) {
-  ///     // Wait for dialog popping animation
-  ///     await Future.delayed(const Duration(milliseconds: 200));
-  ///     // Request system's tracking authorization dialog
-  ///     await AppTrackingTransparency.requestTrackingAuthorization();
-  ///   }
+  ///   await showCustomTrackingDialog(context);
+  ///   // Wait for dialog popping animation
+  ///   await Future.delayed(const Duration(milliseconds: 200));
+  ///   // Request system's tracking authorization dialog
+  ///   await AppTrackingTransparency.requestTrackingAuthorization();
   /// }
   /// ```
   ///

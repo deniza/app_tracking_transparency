@@ -1,5 +1,7 @@
 # app_tracking_transparency
 
+[![pub package](https://img.shields.io/pub/v/app_tracking_transparency.svg)](https://pub.dev/packages/app_tracking_transparency)
+
 This Flutter plugin allows you to display ios 14+ tracking authorization dialog and request permission to collect data. Collected data is crucial for ad networks (ie admob) to work efficiently on ios 14+ devices.
 
 ## Introduction
@@ -40,23 +42,21 @@ final status = await AppTrackingTransparency.requestTrackingAuthorization();
 // FirebaseAdMob.instance.initialize(...)
 ```
 
-You can also show a custom explainer dialog before the system dialog if you want.
+Google (admob) recommends implementing an explainer message that appears to users immediately before the consent dialogue. For additional info on this topic please refer to this article: https://support.google.com/admob/answer/9997589?hl=en
 ```dart
-try {
-  // If the system can show an authorization request dialog
-  if (await AppTrackingTransparency.trackingAuthorizationStatus ==
-      TrackingStatus.notDetermined) {
-    // Show a custom explainer dialog before the system dialog
-    await showCustomTrackingDialog(context);
-    // Wait for dialog popping animation
-    await Future.delayed(const Duration(milliseconds: 200));
-    // Request system's tracking authorization dialog
-    await AppTrackingTransparency.requestTrackingAuthorization();
-  }
-} on PlatformException {
-  // Unexpected exception was thrown
+// If the system can show an authorization request dialog
+if (await AppTrackingTransparency.trackingAuthorizationStatus ==
+    TrackingStatus.notDetermined) {
+  // Show a custom explainer dialog before the system dialog
+  await showCustomTrackingDialog(context);
+  // Wait for dialog popping animation
+  await Future.delayed(const Duration(milliseconds: 200));
+  // Request system's tracking authorization dialog
+  await AppTrackingTransparency.requestTrackingAuthorization();
 }
 ```
+
+The explainer dialog must not contain a "Decide later" button. It should contain only a "Continue" button and the system dialog must be shown after the explainer dialog. [See this issue for details](https://github.com/deniza/app_tracking_transparency/issues/27).
 
 You can also get advertising identifier after authorization. Until a user grants authorization, the UUID returned will be all zeros: 00000000-0000-0000-0000-000000000000. Also note, the advertisingIdentifier will be all zeros in the Simulator, regardless of the tracking authorization status.
 ```dart
@@ -65,8 +65,6 @@ final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
 
 ## Notes
 To use this plugin you should compile your project using XCode 12 and run your app on an ios 14 device.
-
-Google (admob) recommends implementing an explainer message that appears to users immediately before the consent dialogue. For additional info on this topic please refer to this article: <https://support.google.com/admob/answer/9997589?hl=en>
 
 ## Important Notice
 
