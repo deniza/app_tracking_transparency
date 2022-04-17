@@ -1,3 +1,7 @@
+## 2.0.2+3
+
+* Updated documentation and usage example
+
 ## 2.0.2+2
 
 * Updated documentation
