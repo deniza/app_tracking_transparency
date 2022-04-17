@@ -31,14 +31,13 @@ class _HomePageState extends State<HomePage> {
       // If the system can show an authorization request dialog
       if (status == TrackingStatus.notDetermined) {
         // Show a custom explainer dialog before the system dialog
-        if (await showCustomTrackingDialog(context)) {
-          // Wait for dialog popping animation
-          await Future.delayed(const Duration(milliseconds: 200));
-          // Request system's tracking authorization dialog
-          final TrackingStatus status =
-              await AppTrackingTransparency.requestTrackingAuthorization();
-          setState(() => _authStatus = '$status');
-        }
+        await showCustomTrackingDialog(context);
+        // Wait for dialog popping animation
+        await Future.delayed(const Duration(milliseconds: 200));
+        // Request system's tracking authorization dialog
+        final TrackingStatus status =
+            await AppTrackingTransparency.requestTrackingAuthorization();
+        setState(() => _authStatus = '$status');
       }
     } on PlatformException {
       setState(() => _authStatus = 'PlatformException was thrown');
@@ -60,17 +59,13 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text("I'll decide later"),
-            ),
-            TextButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Allow tracking'),
+              child: const Text("Continue"),
             ),
           ],
         ),
       ) ??
-      false;
+      true;
 
   @override
   Widget build(BuildContext context) {
