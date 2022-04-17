@@ -1,3 +1,7 @@
+## 2.0.2+4
+
+* Removed unnecessary checks from sample code 
+
 ## 2.0.2+3
 
 * Updated documentation and usage example
