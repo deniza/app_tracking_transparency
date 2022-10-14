@@ -1,3 +1,7 @@
+## 2.0.3
+
+* Began to use defaultTargetPlatform to aid proper unit testing. Thanks [EArminjon2](https://github.com/EArminjon2)
+
 ## 2.0.2+4
 
 * Removed unnecessary checks from sample code 
