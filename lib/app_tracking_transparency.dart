@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 enum TrackingStatus {
@@ -43,7 +42,7 @@ class AppTrackingTransparency {
   ///
   /// returns TrackingStatus.notSupported on Android
   static Future<TrackingStatus> get trackingAuthorizationStatus async {
-    if (Platform.isIOS) {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
       final int status =
           (await _channel.invokeMethod<int>('getTrackingAuthorizationStatus'))!;
       return TrackingStatus.values[status];
@@ -61,7 +60,7 @@ class AppTrackingTransparency {
   ///
   /// returns TrackingStatus.notSupported on Android
   static Future<TrackingStatus> requestTrackingAuthorization() async {
-    if (Platform.isIOS) {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
       final int status =
           (await _channel.invokeMethod<int>('requestTrackingAuthorization'))!;
       return TrackingStatus.values[status];
@@ -75,7 +74,7 @@ class AppTrackingTransparency {
   /// ```
   /// returns empty string on Android
   static Future<String> getAdvertisingIdentifier() async {
-    if (Platform.isIOS) {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
       final String uuid =
           (await _channel.invokeMethod<String>('getAdvertisingIdentifier'))!;
       return uuid;
