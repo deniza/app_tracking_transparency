@@ -25,7 +25,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    initPlugin();
+
+    // It is safer to call native code using addPostFrameCallback after the widget has been fully built and initialized.
+    // Directly calling native code from initState may result in errors due to the widget tree not being fully built at that point.    
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) => initPlugin());
+
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
