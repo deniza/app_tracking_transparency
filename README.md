@@ -73,3 +73,13 @@ IOS does not allow to display multiple native dialogs. If you try to open a nati
 Another way to get over this problem is postponing permission request until 2nd, or Nth run of the application. If you choose this way, please make sure that you inform app store reviewer that you postponed tracking request, or your submission may be rejected.
 
 And finally; Always test on a real device with a fresh installed application.
+
+### Firebase
+If you use Firebase, make sure you start the requestTrackingAuthorization before the Firebase init, otherwise Apple may reject it saying that the implementation is incorrect.
+```dart
+  await AppTrackingTransparency.requestTrackingAuthorization();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+```
