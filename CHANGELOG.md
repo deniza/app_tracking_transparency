@@ -1,3 +1,7 @@
+## 2.0.5
+
+Added PrivacyInfo.xcprivacy to comply with Apple's new requirements
+
 ## 2.0.4
 
 * Updated the example usage to guide people to use a better approach for avoiding some potential issues when calling native functions
