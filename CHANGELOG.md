@@ -1,6 +1,10 @@
+## 2.0.6
+
+* Resolved an issue in iOS 17.4 & 17.5 that prevented the ATT dialog from appearing. Thanks [daltoncabrera](https://github.com/daltoncabrera)
+
 ## 2.0.5
 
-Added PrivacyInfo.xcprivacy to comply with Apple's new requirements
+* Added PrivacyInfo.xcprivacy to comply with Apple's new requirements
 
 ## 2.0.4
 
