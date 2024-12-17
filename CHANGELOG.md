@@ -1,3 +1,7 @@
+## 2.0.6+1
+
+* Updated documentation and sample usage
+
 ## 2.0.6
 
 * Resolved an issue in iOS 17.4 & 17.5 that prevented the ATT dialog from appearing. Thanks [daltoncabrera](https://github.com/daltoncabrera)

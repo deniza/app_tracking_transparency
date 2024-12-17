@@ -1,3 +1,4 @@
+
 # app_tracking_transparency
 
 [![pub package](https://img.shields.io/pub/v/app_tracking_transparency.svg)](https://pub.dev/packages/app_tracking_transparency)
@@ -30,16 +31,36 @@ Make sure you update Info.plist file located in ios/Runner directory and add the
 Google recommends that you should be using Google Mobile Ads SDK 7.64.0 or higher. The Google Mobile Ads SDK supports conversion tracking using Apple's SKAdNetwork, which means Google is able to attribute an app install even when IDFA is unavailable. **This is a crucial step if you want to maximize your ad revenue when IDFA is not available.** To enable this functionality, you will need to update the SKAdNetworkItems key with an additional dictionary in your Info.plist, [check them here](https://developers.google.com/admob/ios/ios14#skadnetwork).
 
 ## Example
+In this example, the tracking authorization dialog is requested from the Home widget of the application. You can initiate this request from any StatefulWidget in your app.
 ``` dart
 // Import package
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
-// Show tracking authorization dialog and ask for permission
-final status = await AppTrackingTransparency.requestTrackingAuthorization();
+void main() {
+    runApp(MyApp());
+}
 
-// Now you can safely initialize admob and start to show ads. Admob should use
-// advertising identifier automatically.
-// FirebaseAdMob.instance.initialize(...)
+class MyApp extends StatefulWidget {
+    @override _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+    @override
+    void  initState() {
+        super.initState();
+        // Show tracking authorization dialog and ask for permission
+        WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) async { 
+            final status = await AppTrackingTransparency.requestTrackingAuthorization();
+        });     
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        ...
+    }
+}
+
+
 ```
 
 Google (admob) recommends implementing an explainer message that appears to users immediately before the consent dialogue. For additional info on this topic please refer to this article: https://support.google.com/admob/answer/9997589?hl=en
@@ -64,7 +85,7 @@ final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
 ``` 
 
 ## Notes
-To use this plugin you should compile your project using XCode 12 and run your app on an ios 14 device.
+To use this plugin you should compile your project using XCode 12+ and run your app on an ios 14 + device.
 
 ## Important Notice
 
