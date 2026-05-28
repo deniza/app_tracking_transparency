@@ -6,6 +6,8 @@
 
 build/
 
+example/ios/Flutter/ephemeral/
+
 # Cleanliness
 pubspec.lock
 **.iml
