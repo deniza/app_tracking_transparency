@@ -1,3 +1,8 @@
+## 2.0.7
+
+- Add Swift Package Manager support for iOS.
+- Keep CocoaPods support for existing Flutter projects.
+
 ## 2.0.6+1
 
 * Updated documentation and sample usage
